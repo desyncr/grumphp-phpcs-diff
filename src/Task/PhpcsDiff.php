@@ -64,6 +64,7 @@ class PhpcsDiff extends AbstractExternalTask
         /** @var array $whitelistPatterns */
 
         $arguments = $this->processBuilder->createArgumentsForCommand('phpcs-diff');
+        $arguments->add('--ruleset=' . $config['standard']);
         $arguments->add($config['branch']);
 
         $process = $this->processBuilder->buildProcess($arguments);
