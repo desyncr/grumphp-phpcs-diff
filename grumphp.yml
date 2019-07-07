@@ -1,0 +1,9 @@
+parameters:
+  git_dir: .
+  bin_dir: vendor/bin
+  tasks:
+    phpcs-diff:
+        - standard: PSR2
+        - branch: master
+  extensions:
+    - Desyncr\GrumPHP\Extension

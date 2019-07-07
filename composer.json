@@ -1,0 +1,21 @@
+{
+    "name": "desyncr/grumphp-phpcs-diff",
+    "description": "phpcs-diff task for grumphp",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "DC*",
+            "email": "des@riseup.net"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "phpro/grumphp": "^0.15"
+    },
+    "autoload": {
+        "psr-4": {
+            "Desyncr\\GrumPHP\\": "src/"
+        }
+    }
+}
