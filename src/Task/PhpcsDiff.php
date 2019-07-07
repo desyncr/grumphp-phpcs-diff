@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Desyncr\GrumPHP\Task;
 
 use GrumPHP\Collection\ProcessArgumentsCollection;
@@ -7,8 +9,10 @@ use GrumPHP\Runner\TaskResult;
 use GrumPHP\Task\Context\ContextInterface;
 use GrumPHP\Task\Context\GitPreCommitContext;
 use GrumPHP\Task\Context\RunContext;
+use GrumPHP\Task\AbstractExternalTask;
 use RuntimeException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use GrumPHP\Runner\TaskResultInterface;
 
 /**
  * PhpcsDiff task
@@ -20,7 +24,7 @@ class PhpcsDiff extends AbstractExternalTask
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'phpcs-diff';
     }
@@ -28,7 +32,7 @@ class PhpcsDiff extends AbstractExternalTask
     /**
      * @return OptionsResolver
      */
-    public function getConfigurableOptions()
+    public function getConfigurableOptions(): OptionsResolver
     {
         $resolver = new OptionsResolver();
         $resolver->setDefaults([
@@ -45,7 +49,7 @@ class PhpcsDiff extends AbstractExternalTask
     /**
      * {@inheritdoc}
      */
-    public function canRunInContext(ContextInterface $context)
+    public function canRunInContext(ContextInterface $context): bool
     {
         return ($context instanceof GitPreCommitContext || $context instanceof RunContext);
     }
@@ -53,7 +57,7 @@ class PhpcsDiff extends AbstractExternalTask
     /**
      * {@inheritdoc}
      */
-    public function run(ContextInterface $context)
+    public function run(ContextInterface $context): TaskResultInterface
     {
         /** @var array $config */
         $config = $this->getConfiguration();
@@ -66,6 +70,7 @@ class PhpcsDiff extends AbstractExternalTask
         $process->run();
 
         if (!$process->isSuccessful()) {
+            $output = $this->formatter->format($process);
             return TaskResult::createFailed($this, $context, $output);
         }
 
